@@ -61,6 +61,9 @@
                 }
                 // If its not a dupe then generate a new name
                 if (!$this->FILE_INFO['DUPE']) {
+                    //$this->FILE_INFO['FILENAME'] = $this->generateName($this->FILE_INFO['EXTENSION']);	
+                    $this->FILE_INFO['FILENAME'] = strip_tags($this->checkNameLength($file['name']));	
+                } else {
                     $this->FILE_INFO['FILENAME'] = $this->generateName($this->FILE_INFO['EXTENSION']);
                 }
                 $result[] = [
@@ -173,7 +176,7 @@
                'hash'     => $this->FILE_INFO['SHA1'],
                'name'     => $this->FILE_INFO['NAME'],
                'filename' => $this->FILE_INFO['FILENAME'],
-               'url'      => 'https://' . $this->Connector->CONFIG['FILE_DOMAIN'] . '/' . $this->FILE_INFO['FILENAME'],
+               'url'      => 'http://' . $this->Connector->CONFIG['FILE_DOMAIN'] . '/files/' . $this->FILE_INFO['FILENAME'],
                'size'     => $this->FILE_INFO['SIZE'],
                'dupe'     => $this->FILE_INFO['DUPE'],
             ];
