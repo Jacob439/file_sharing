@@ -1,3 +1,16 @@
+# File Sharing
+
+This is a fork of Uguu (information following in the readme). The only changes for this fork are a few UI adjustments and functional adjustments.
+These changes include, but are not limited to:
+- Removing the get grill scripts 
+- Changing the file renaming when saved (only renames if there is a duplicate)
+- Adjust functionality to work better with http
+- Rework main page to list all files on load
+
+The reasoning for my changes is so I can use this site as a replacement for flash drive use on my local network.
+Disclaimer: My changes undermine the security of this webapp, so this will never be opened outside my local network.
+
+
 # Uguu
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nokonoko_Uguu&metric=alert_status)](https://sonarcloud.io/dashboard?id=nokonoko_Uguu)
