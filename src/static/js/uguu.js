@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {File} file
      * @return {HTMLLIElement} row
      */
-    function addRow(file)
-    {
+    function addRow(file) {
         const row = document.createElement('li');
 
         const name = document.createElement('span');
@@ -54,8 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
      *
      * @param {ProgressEvent} evt
      */
-    function handleUploadProgress(evt)
-    {
+    function handleUploadProgress(evt) {
         let xhr = evt.target;
         let bar = xhr.bar;
         let percentIndicator = xhr.percent;
@@ -76,8 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
      *
      * @param {ProgressEvent} evt
      */
-    function handleUploadComplete(evt)
-    {
+    function handleUploadComplete(evt) {
         let xhr = evt.target;
         let bar = xhr.bar;
         let row = xhr.row;
@@ -143,8 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {File} file
      * @param {HTMLLIElement} row
      */
-    function uploadFile(file, row)
-    {
+    function uploadFile(file, row) {
         let bar = row.querySelector('.file-progress');
         let percentIndicator = row.querySelector('.progress-percent');
         let xhr = new XMLHttpRequest();
@@ -171,8 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
      *
      * @param {Event} evt
      */
-    function stopDefaultEvent(evt)
-    {
+    function stopDefaultEvent(evt) {
         evt.stopPropagation();
         evt.preventDefault();
     }
@@ -184,8 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {HTMLButtonElement} element
      * @param {DragEvent} evt
      */
-    function handleDrag(state, element, evt)
-    {
+    function handleDrag(state, element, evt) {
         stopDefaultEvent(evt);
         if (state.dragCount === 1) {
             element.textContent = 'Drop it here~';
@@ -200,8 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {HTMLButtonElement} element
      * @param {DragEvent} evt
      */
-    function handleDragAway(state, element, evt)
-    {
+    function handleDragAway(state, element, evt) {
         stopDefaultEvent(evt);
         state.dragCount -= 1;
         if (state.dragCount === 0) {
@@ -216,8 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {HTMLButtonElement} element
      * @param {DragEvent} evt
      */
-    function handleDragDrop(state, element, evt)
-    {
+    function handleDragDrop(state, element, evt) {
         stopDefaultEvent(evt);
         handleDragAway(state, element, evt);
         let len = evt.dataTransfer.files.length;
@@ -233,8 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
      *
      * @param {InputEvent} evt
      */
-    function uploadFiles(evt)
-    {
+    function uploadFiles(evt) {
         let len = evt.target.files.length;
         // For each file, make a row, and upload the file.
         for (let i = 0; i < len; i++) {
@@ -250,8 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {HTMLInputElement} target
      * @param {InputEvent} evt
      */
-    function selectFiles(target, evt)
-    {
+    function selectFiles(target, evt) {
         stopDefaultEvent(evt);
         target.click();
     }
@@ -266,11 +256,52 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    /**
+     * The below was added by me to list all the files 
+     * that are located in the files folder
+     */
+    function listFiles(json) {
+        console.log(json);
+        for (var key in json) {
+            console.log(json[key]);
+            const t = document.createElement("li"), n = document.createElement("span");
+            (n.textContent = json[key]), (n.className = "file-name");
+            const d = document.createElement("span");
+            d.className = "file-url";
+
+            let i = document.createElement("a");
+            //Probably want to add window loc below in addition to json[key]
+            (i.textContent = json[key]), (i.href = window.location.href + 'files/' + json[key]), d.appendChild(i);
+            const button = document.createElement("button");
+            button.className = "upload-clipboard-btn";
+            const image = document.createElement("img");
+            (image.src = "img/glyphicons-512-copy.png"),
+                button.appendChild(image),
+                d.appendChild(button),
+                button.addEventListener("click", function () {
+                    const t = document.createElement("a");
+                    (t.textContent = window.location.href + 'files/' + json[key]), i.appendChild(t);
+                    let n = document.createRange();
+                    n.selectNode(t), window.getSelection().removeAllRanges(), window.getSelection().addRange(n), document.execCommand("copy"), i.removeChild(t);
+                });
+
+
+            t.appendChild(n);
+            t.appendChild(d);
+            document.getElementById("upload-filelist").appendChild(t);
+        }
+    }
+    // Get request here
+    fetch(window.location.href + "/fileList.php")
+        .then((response) => response.json())
+        // .then((json) => console.log(json))
+        .then((json) => listFiles(json));
+
 
     /* Set up the event handlers for the <button>, <input> and the window itself
        and also set the "js" class on selector "#upload-form", presumably to
        allow custom styles for clients running javascript. */
-    let state = {dragCount: 0};
+    let state = { dragCount: 0 };
     let uploadButton = document.getElementById('upload-btn');
     window.addEventListener('dragenter', handleDrag.bind(this, state, uploadButton), false);
     window.addEventListener('dragleave', handleDragAway.bind(this, state, uploadButton), false);
