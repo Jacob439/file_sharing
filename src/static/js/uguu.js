@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     function listFiles(json) {
         console.log(json);
-        for (var key in json) {
+        for (let key in json) {
             console.log(json[key]);
             const t = document.createElement("li"), n = document.createElement("span");
             (n.textContent = json[key]), (n.className = "file-name");
