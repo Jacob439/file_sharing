@@ -6,6 +6,8 @@ These changes include, but are not limited to:
 - Changing the file renaming when saved (only renames if there is a duplicate)
 - Adjust functionality to work better with http
 - Rework main page to list all files on load
+- Changed checksum algorithm from SHA1 to xxh3
+      - Reduced "file processing time" for test file from 1:26s to 58 seconds
 
 The reasoning for my changes is so I can use this site as a replacement for flash drive use on my local network.
 Disclaimer: My changes undermine the security of this webapp, so this will never be opened outside my local network.
