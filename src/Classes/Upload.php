@@ -44,7 +44,7 @@
                    'TEMP_NAME' => $file['tmp_name'],
                    'NAME'      => strip_tags($this->checkNameLength($file['name'])),
                    'SIZE'      => $file['size'],
-                   'XXH'      => hash('xxh3', $file['tmp_name']),
+                   'XXH'      => hash_file('xxh3', $file['tmp_name']),
                    'EXTENSION' => $this->fileExtension($file),
                    'MIME'      => $this->fileMIME($file),
                    'DUPE'      => false,
@@ -202,7 +202,7 @@
                    'timestamp'    => time(),
                    'useragent'    => $USER_AGENT,
                    'ip'           => $ip,
-                   'ip_hash'      => hash('sha1', $_SERVER['REMOTE_ADDR'] . $USER_AGENT),
+                   'ip_hash'      => hash('xxh3', $_SERVER['REMOTE_ADDR'] . $USER_AGENT),
                    'files_amount' => $files_amount,
                 ];
             } else {
